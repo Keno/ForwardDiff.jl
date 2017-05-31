@@ -55,7 +55,7 @@ degree{N,T}(::Type{Dual{N,T}}) = 1 + degree(T)
 #####################
 
 macro ambiguous(ex)
-    def = ex.head == :macrocall ? ex.args[2] : ex
+    def = ex.head == :macrocall ? (ex.args[2].head == :line ? ex.args[3] : ex.args[2]) : ex
     sig = def.args[1]
     body = def.args[2]
     f = isa(sig.args[1], Expr) && sig.args[1].head == :curly ? sig.args[1].args[1] : sig.args[1]

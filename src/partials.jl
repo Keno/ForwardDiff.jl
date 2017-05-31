@@ -1,4 +1,4 @@
-immutable Partials{N,T} <: AbstractVector{T}
+struct Partials{N,T} <: AbstractVector{T}
     values::NTuple{N,T}
 end
 

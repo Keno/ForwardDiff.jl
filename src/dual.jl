@@ -4,7 +4,7 @@ const ExternalReal = Union{subtypes(Real)...}
 # Dual #
 ########
 
-immutable Dual{N,T<:Real} <: Real
+struct Dual{N,T<:Real} <: Real
     value::T
     partials::Partials{N,T}
 end

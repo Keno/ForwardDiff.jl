@@ -10,7 +10,7 @@
 # but feature different constructors and dispatch restrictions in downstream code.
 for Config in (:GradientConfig, :JacobianConfig)
     @eval begin
-        @compat immutable $Config{N,T,D} <: AbstractConfig
+        @compat struct $Config{N,T,D} <: AbstractConfig
             seeds::NTuple{N,Partials{N,T}}
             duals::D
             # disable default outer constructor
@@ -51,7 +51,7 @@ end
 # HessianConfig #
 ##################
 
-immutable HessianConfig{N,J,JD,G,GD} <: AbstractConfig
+struct HessianConfig{N,J,JD,G,GD} <: AbstractConfig
     gradient_config::GradientConfig{N,G,GD}
     jacobian_config::JacobianConfig{N,J,JD}
 end
@@ -85,7 +85,7 @@ jacobian_config(cfg::HessianConfig) = cfg.jacobian_config
 # MultithreadConfig #
 #####################
 
-immutable MultithreadConfig{A,B} <: AbstractConfig
+struct MultithreadConfig{A,B} <: AbstractConfig
     config1::A
     config2::B
 end

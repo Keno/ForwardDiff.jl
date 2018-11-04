@@ -79,6 +79,7 @@ Base.convert(::Type{Partials{N,V}}, partials::Partials{N,V}) where {N,V} = parti
 @inline Base.:-(a::Partials{N}, b::Partials{N}) where {N} = Partials(sub_tuples(a.values, b.values))
 @inline Base.:-(partials::Partials) = Partials(minus_tuple(partials.values))
 @inline Base.:*(x::Real, partials::Partials) = partials*x
+@inline Base.:*(x, partials::Partials) = partials*x
 
 @inline function _div_partials(a::Partials, b::Partials, aval, bval)
     return _mul_partials(a, b, inv(bval), -(aval / (bval*bval)))
@@ -105,6 +106,9 @@ if NANSAFE_MODE_ENABLED
     end
 else
     @inline function Base.:*(partials::Partials, x::Real)
+        return Partials(scale_tuple(partials.values, x))
+    end
+    @inline function Base.:*(partials::Partials, x)
         return Partials(scale_tuple(partials.values, x))
     end
 
